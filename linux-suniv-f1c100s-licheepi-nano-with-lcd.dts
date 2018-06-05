@@ -1,0 +1,89 @@
+/*
+ * Copyright (C) 2018 Icenowy Zheng <icenowy@aosc.io>
+ *
+ * SPDX-License-Identifier: (GPL-2.0+ OR X11)
+ */
+
+#include "suniv-f1c100s-licheepi-nano.dts"
+
+/ {
+	panel: panel {
+		compatible = "urt,umsh-8596md-t", "simple-panel";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@0 {
+			reg = <0>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			panel_input: endpoint@0 {
+				reg = <0>;
+				remote-endpoint = <&tcon0_out_lcd>;
+			};
+		};
+	};
+};
+
+&spi0 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&spi0_pins_a>;
+    status = "okay";
+    spi-max-frequency = <50000000>;
+    flash: w25q128@0 {
+        #address-cells = <1>;
+        #size-cells = <1>;
+        compatible = "winbond,w25q128", "jedec,spi-nor";
+        reg = <0>;
+        spi-max-frequency = <50000000>;
+        partitions {
+            compatible = "fixed-partitions";
+            #address-cells = <1>;
+            #size-cells = <1>;
+
+            partition@0 {
+                label = "u-boot";
+                reg = <0x000000 0x100000>;
+                read-only;
+            };
+
+            partition@100000 {
+                label = "dtb";
+                reg = <0x100000 0x10000>;
+                read-only;
+            };
+
+            partition@110000 {
+                label = "kernel";
+                reg = <0x110000 0x400000>;
+                read-only;
+            };
+
+            partition@510000 {
+                label = "rootfs";
+                reg = <0x510000 0xAF0000>;
+            };
+        };
+    };
+};
+
+&be0 {
+	status = "okay";
+};
+
+&de {
+	status = "okay";
+};
+
+&tcon0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&lcd_rgb666_pins>;
+	status = "okay";
+};
+
+&tcon0_out {
+	tcon0_out_lcd: endpoint@0 {
+		reg = <0>;
+		remote-endpoint = <&panel_input>;
+	};
+};
