@@ -41,7 +41,8 @@ pull_linux(){
 	rm -rf ${temp_root_dir}/${linux_dir} &&\
 	mkdir -p ${temp_root_dir}/${linux_dir} &&\
 	cd ${temp_root_dir}/${linux_dir} &&\
-	git clone --depth=1 -b nano-4.14-exp https://github.com/Lichee-Pi/linux.git
+	#git clone --depth=1 -b nano-4.14-exp https://github.com/Lichee-Pi/linux.git
+	git clone -b f1c100s --depth=1 https://github.com/Icenowy/linux.git
 	if [ ! -d ${temp_root_dir}/${linux_dir}/linux ]; then
 		echo "Error:pull linux failed"
     		exit 0
