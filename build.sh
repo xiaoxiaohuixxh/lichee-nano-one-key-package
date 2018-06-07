@@ -82,13 +82,13 @@ pull_buildroot(){
 	mkdir -p ${temp_root_dir}/${buildroot_dir} &&\
 	cd ${temp_root_dir}/${buildroot_dir} &&\
 	wget https://buildroot.org/downloads/buildroot-2017.08.tar.gz &&\
-	tar xvf buildroot-2017.08.tar.gz
+	tar xvf ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08.tar.gz
 	if [ ! -d ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08 ]; then
 		echo "Error:pull buildroot failed"
     		exit 0
 	else			
 		mv ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08/* ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08
-		rm -rf buildroot-2017.08
+		rm -rf ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08
 		echo "pull buildroot ok"
 	fi
 }
