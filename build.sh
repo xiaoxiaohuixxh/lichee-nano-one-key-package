@@ -32,7 +32,7 @@ pull_uboot(){
 		echo "Error:pull u_boot failed"
     		exit 0
 	else	
-		mv -rf ${temp_root_dir}/${u_boot_dir}/u-boot/* ${temp_root_dir}/${u_boot_dir}/	
+		mv ${temp_root_dir}/${u_boot_dir}/u-boot/* ${temp_root_dir}/${u_boot_dir}/	
 		rm -rf ${temp_root_dir}/${u_boot_dir}/u-boot	
 		echo "pull buildroot ok"
 	fi
@@ -47,7 +47,7 @@ pull_linux(){
 		echo "Error:pull linux failed"
     		exit 0
 	else	
-		mv -rf ${temp_root_dir}/${linux_dir}/linux/* ${temp_root_dir}/${linux_dir}/
+		mv ${temp_root_dir}/${linux_dir}/linux/* ${temp_root_dir}/${linux_dir}/
 		rm -rf ${temp_root_dir}/${linux_dir}/linux
 		echo "pull buildroot ok"
 	fi
@@ -245,7 +245,7 @@ build_buildroot(){
     	echo "--->Configuring ..."
 	rm ${temp_root_dir}/${buildroot_dir}/.config
 	cp ${temp_root_dir}/buildroot.config ${temp_root_dir}/${buildroot_dir}/.config
-	#make ARCH=arm CROSS_COMPILE=${cross_compiler}- ${buildroot_config_file} > /dev/null 2>&1
+	make ARCH=arm CROSS_COMPILE=${cross_compiler}- ${buildroot_config_file} > /dev/null 2>&1
 	if [ $? -ne 0 ] || [ ! -f ${temp_root_dir}/${buildroot_dir}/.config ]; then
 		echo "Error: .config file not exist"
 		exit 1
