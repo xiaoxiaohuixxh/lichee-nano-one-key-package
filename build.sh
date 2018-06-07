@@ -245,7 +245,7 @@ build_buildroot(){
     	echo "--->Configuring ..."
 	rm ${temp_root_dir}/${buildroot_dir}/.config
 	cp ${temp_root_dir}/buildroot.config ${temp_root_dir}/${buildroot_dir}/.config
-	make ARCH=arm CROSS_COMPILE=${cross_compiler}- ${buildroot_config_file} > /dev/null 2>&1
+	#make ARCH=arm CROSS_COMPILE=${cross_compiler}- ${buildroot_config_file} > /dev/null 2>&1
 	if [ $? -ne 0 ] || [ ! -f ${temp_root_dir}/${buildroot_dir}/.config ]; then
 		echo "Error: .config file not exist"
 		exit 1
