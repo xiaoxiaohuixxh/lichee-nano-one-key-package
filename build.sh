@@ -32,7 +32,7 @@ pull_uboot(){
 		echo "Error:pull u_boot failed"
     		exit 0
 	else	
-		mv -rf ${temp_root_dir}/${u_boot_dir}/u-boot/* ${temp_root_dir}/${u_boot_dir}/	
+		mv ${temp_root_dir}/${u_boot_dir}/u-boot/* ${temp_root_dir}/${u_boot_dir}/	
 		rm -rf ${temp_root_dir}/${u_boot_dir}/u-boot	
 		echo "pull buildroot ok"
 	fi
@@ -47,7 +47,7 @@ pull_linux(){
 		echo "Error:pull linux failed"
     		exit 0
 	else	
-		mv -rf ${temp_root_dir}/${linux_dir}/linux/* ${temp_root_dir}/${linux_dir}/
+		mv ${temp_root_dir}/${linux_dir}/linux/* ${temp_root_dir}/${linux_dir}/
 		rm -rf ${temp_root_dir}/${linux_dir}/linux
 		echo "pull buildroot ok"
 	fi
