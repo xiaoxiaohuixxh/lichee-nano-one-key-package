@@ -437,7 +437,13 @@ build(){
 	
 }
 if [ "${1}" = "" ] && [ ! "${1}" = "nano_spiflash" ] && [ ! "${1}" = "nano_tf" ] && [ ! "${1}" = "pull_all" ]; then
-    echo "Usage: build.sh [nano_spiflash | nano_tf | pull_all | clean]"
+	echo "Usage: build.sh [nano_spiflash | nano_tf | pull_all | clean]"；
+	echo "One key build nano finware";
+	echo " ";
+	echo "nano_spiflash    Build nano firmware booted from spiflash";
+	echo "nano_tf          Build nano firmware booted from tf";
+	echo "pull_all         Pull build env from internet";
+	echo "clean            Clean build env";
     exit 0
 fi
 if [ ! -f ${temp_root_dir}/build.sh ]; then
