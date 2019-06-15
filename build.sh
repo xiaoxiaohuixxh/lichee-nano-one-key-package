@@ -18,7 +18,7 @@ linux_config_file=""
 #linux opt=========================================================
 
 #linux opt=========================================================
-buildroot_dir="buildroot-2018.02.2"
+buildroot_dir="buildroot-2017.08"
 buildroot_config_file=""
 #linux opt=========================================================
 
@@ -58,18 +58,18 @@ pull_toolchain(){
 	cd ${temp_root_dir}/${toolchain_dir}
 	ldconfig
 	if [ $(getconf WORD_BIT) = '32' ] && [ $(getconf LONG_BIT) = '64' ] ; then
-		wget http://releases.linaro.org/components/toolchain/binaries/latest-7/arm-linux-gnueabi/gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabi.tar.xz &&\
-		tar xvJf gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabi.tar.xz
-		if [ ! -d ${temp_root_dir}/${toolchain_dir}/gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabi ]; then
+		wget http://releases.linaro.org/components/toolchain/binaries/latest-7/arm-linux-gnueabi/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabi.tar.xz &&\
+		tar xvJf gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabi.tar.xz
+		if [ ! -d ${temp_root_dir}/${toolchain_dir}/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabi ]; then
 			echo "Error:pull toolchain failed"
 	    		exit 0
 		else			
 			echo "pull buildroot ok"
 		fi
 	else
-	 	wget http://releases.linaro.org/components/toolchain/binaries/latest-7/arm-linux-gnueabi/gcc-linaro-7.2.1-2017.11-i686_arm-linux-gnueabi.tar.xz &&\
-		tar xvJf gcc-linaro-7.2.1-2017.11-i686_arm-linux-gnueabi.tar.xz
-		if [ ! -d ${temp_root_dir}/${toolchain_dir}/gcc-linaro-7.2.1-2017.11-i686_arm-linux-gnueabi ]; then
+	 	wget http://releases.linaro.org/components/toolchain/binaries/latest-7/arm-linux-gnueabi/gcc-linaro-7.4.1-2019.02-i686_arm-linux-gnueabi.tar.xz &&\
+		tar xvJf gcc-linaro-7.4.1-2019.02-i686_arm-linux-gnueabi.tar.xz
+		if [ ! -d ${temp_root_dir}/${toolchain_dir}/gcc-linaro-7.4.1-2019.02-i686_arm-linux-gnueabi ]; then
 			echo "Error:pull toolchain failed"
 	    		exit 0
 		else			
@@ -78,25 +78,31 @@ pull_toolchain(){
 	fi
 }
 pull_buildroot(){
-	rm -rf ${temp_root_dir}/${buildroot_dir} &&\
-	mkdir -p ${temp_root_dir}/${buildroot_dir} &&\
-	cd ${temp_root_dir}/${buildroot_dir} &&\
+	rm -rf ${temp_root_dir}/${buildroot_dir}
+	mkdir -p ${temp_root_dir}/${buildroot_dir}
+	cd ${temp_root_dir}/${buildroot_dir}  &&\
 	wget https://buildroot.org/downloads/buildroot-2017.08.tar.gz &&\
-	tar xvf ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08.tar.gz
+	tar xvf buildroot-2017.08.tar.gz
 	if [ ! -d ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08 ]; then
 		echo "Error:pull buildroot failed"
     		exit 0
 	else			
-		mv ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08/* ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08
-		rm -rf ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08
+		# mv ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08/* ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08
+		# rm -rf ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08
 		echo "pull buildroot ok"
 	fi
 }
 pull_all(){
+        sudo apt-get update
+	sudo apt-get install -y autoconf automake libtool gettext 
+        sudo apt-get install -y gcc g++ swig python-dev bc python u-boot-tools bison flex bc libncurses5-dev libc6-i386 lib32stdc++6 lib32z1
+	sudo apt-get install -y libc6:i386 libstdc++6:i386 zlib1g:i386
 	pull_uboot
 	pull_linux
 	pull_toolchain
 	pull_buildroot
+	cp -f ${temp_root_dir}/buildroot.config ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08
+	cp -f ${temp_root_dir}/linux-licheepi_nano_defconfig ${temp_root_dir}/${linux_dir}/arch/arm/configs/licheepi_nano_defconfig
 	cp -f ${temp_root_dir}/linux-licheepi_nano_spiflash_defconfig ${temp_root_dir}/${linux_dir}/arch/arm/configs/licheepi_nano_spiflash_defconfig
 	cp -f ${temp_root_dir}/linux-suniv-f1c100s-licheepi-nano-with-lcd.dts ${temp_root_dir}/${linux_dir}/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano-with-lcd.dts
 	cp -f ${temp_root_dir}/uboot-licheepi_nano_defconfig ${temp_root_dir}/${u_boot_dir}/configs/licheepi_nano_defconfig
@@ -108,15 +114,15 @@ pull_all(){
 
 #env===================================================================
 update_env(){
-	if [ ! -d ${temp_root_dir}/${toolchain_dir}/gcc-linaro-7.2.1-2017.11-i686_arm-linux-gnueabi ]; then
-		if [ ! -d ${temp_root_dir}/${toolchain_dir}/gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabi ]; then
+	if [ ! -d ${temp_root_dir}/${toolchain_dir}/gcc-linaro-7.4.1-2019.02-i686_arm-linux-gnueabi ]; then
+		if [ ! -d ${temp_root_dir}/${toolchain_dir}/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabi ]; then
 			echo "Error:toolchain no found,Please use ./buid.sh pull_all "
 	    		exit 0
 		else			
-			export PATH="$PWD/${toolchain_dir}/gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabi/bin":"$PATH"
+			export PATH="$PWD/${toolchain_dir}/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabi/bin":"$PATH"
 		fi
 	else
-		export PATH="$PWD/${toolchain_dir}/gcc-linaro-7.2.1-2017.11-i686_arm-linux-gnueabi/bin":"$PATH"
+		export PATH="$PWD/${toolchain_dir}/gcc-linaro-7.4.1-2019.02-i686_arm-linux-gnueabi/bin":"$PATH"
 	fi
 	
 }
@@ -158,6 +164,7 @@ build_uboot(){
 	echo "Building uboot ..."
     	echo "--->Configuring ..."
 	make ARCH=arm CROSS_COMPILE=${cross_compiler}- ${u_boot_config_file} > /dev/null 2>&1
+        # cp -f ${temp_root_dir}/${u_boot_config_file} ${temp_root_dir}/${u_boot_dir}/.config
 	if [ $? -ne 0 ] || [ ! -f ${temp_root_dir}/${u_boot_dir}/.config ]; then
 		echo "Error: .config file not exist"
 		exit 1
@@ -240,13 +247,15 @@ clean_buildroot(){
 
 
 build_buildroot(){
-	cd ${temp_root_dir}/${buildroot_dir}
+	cd ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08
 	echo "Building buildroot ..."
     	echo "--->Configuring ..."
-	rm ${temp_root_dir}/${buildroot_dir}/.config
-	cp ${temp_root_dir}/buildroot.config ${temp_root_dir}/${buildroot_dir}/.config
-	#make ARCH=arm CROSS_COMPILE=${cross_compiler}- ${buildroot_config_file} > /dev/null 2>&1
-	if [ $? -ne 0 ] || [ ! -f ${temp_root_dir}/${buildroot_dir}/.config ]; then
+	rm ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08/.config
+	make ARCH=arm CROSS_COMPILE=${cross_compiler}- defconfig
+	cp -f ${temp_root_dir}/buildroot.config ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08/.config
+	make ARCH=arm CROSS_COMPILE=${cross_compiler}- ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08/.config
+	# make ARCH=arm CROSS_COMPILE=${cross_compiler}- ${buildroot_config_file} > /dev/null 2>&1
+	if [ $? -ne 0 ] || [ ! -f ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08/.config ]; then
 		echo "Error: .config file not exist"
 		exit 1
 	fi
@@ -459,13 +468,18 @@ fi
 if [ "${1}" = "pull_all" ]; then
 	pull_all
 fi
+if [ "${1}" = "pull_buildroot" ]; then
+	pull_buildroot
+fi
 if [ "${1}" = "nano_spiflash" ]; then
 	linux_config_file="licheepi_nano_spiflash_defconfig"
 	u_boot_config_file="licheepi_nano_spiflash_defconfig"
 	build
 	pack_spiflash_normal_size_img
 fi
-
+if [ "${1}" = "build_buildroot" ]; then
+	build_buildroot
+fi
 if [ "${1}" = "nano_tf" ]; then
 	linux_config_file="licheepi_nano_defconfig"
 	u_boot_config_file="licheepi_nano_defconfig"
