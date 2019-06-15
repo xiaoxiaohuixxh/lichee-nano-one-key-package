@@ -95,7 +95,7 @@ pull_buildroot(){
 pull_all(){
         sudo apt-get update
 	sudo apt-get install -y autoconf automake libtool gettext 
-        sudo apt-get install -y make gcc g++ swig python-dev bc python u-boot-tools bison flex bc libssl-dev libncurses5-dev unzip
+        sudo apt-get install -y make gcc g++ swig python-dev bc python u-boot-tools bison flex bc libssl-dev libncurses5-dev unzip mtd-utils
 	sudo apt-get install -y libc6-i386 lib32stdc++6 lib32z1
 	sudo apt-get install -y libc6:i386 libstdc++6:i386 zlib1g:i386
 	pull_uboot
@@ -283,8 +283,8 @@ copy_linux(){
 	
 }
 copy_buildroot(){
-	cp -r ${temp_root_dir}/${buildroot_dir}/output/target ${temp_root_dir}/output/rootfs/
-	cp ${temp_root_dir}/${buildroot_dir}/output/images/rootfs.tar ${temp_root_dir}/output/
+	cp -r ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08/output/target ${temp_root_dir}/output/rootfs/
+	cp ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08/output/images/rootfs.tar ${temp_root_dir}/output/
 	gzip -c ${temp_root_dir}/output/rootfs.tar > ${temp_root_dir}/output/rootfs.tar.gz
 }
 #copy=========================================================
@@ -473,6 +473,7 @@ if [ "${1}" = "pull_buildroot" ]; then
 	pull_buildroot
 fi
 if [ "${1}" = "nano_spiflash" ]; then
+	echo "build rootfs maybe have some buf in this mode"
 	linux_config_file="licheepi_nano_spiflash_defconfig"
 	u_boot_config_file="licheepi_nano_spiflash_defconfig"
 	build
