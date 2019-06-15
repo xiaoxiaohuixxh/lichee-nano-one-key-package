@@ -95,7 +95,7 @@ pull_buildroot(){
 pull_all(){
         sudo apt-get update
 	sudo apt-get install -y autoconf automake libtool gettext 
-        sudo apt-get install -y make gcc g++ swig python-dev bc python u-boot-tools bison flex bc libssl-dev libncurses5-dev
+        sudo apt-get install -y make gcc g++ swig python-dev bc python u-boot-tools bison flex bc libssl-dev libncurses5-dev unzip
 	sudo apt-get install -y libc6-i386 lib32stdc++6 lib32z1
 	sudo apt-get install -y libc6:i386 libstdc++6:i386 zlib1g:i386
 	pull_uboot
@@ -263,7 +263,7 @@ build_buildroot(){
 	echo "--->Compiling ..."
   	make ARCH=arm CROSS_COMPILE=${cross_compiler}- > ${temp_root_dir}/build_buildroot.log 2>&1
 
-	if [ $? -ne 0 ] || [ ! -d ${temp_root_dir}/${buildroot_dir}/output/target ]; then
+	if [ $? -ne 0 ] || [ ! -d ${temp_root_dir}/${buildroot_dir}/buildroot-2017.08/output/target ]; then
         	echo "Error: BUILDROOT NOT BUILD.Please Get Some Error From build_buildroot.log"
         	exit 1
 	fi
