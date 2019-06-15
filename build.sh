@@ -478,6 +478,7 @@ if [ "${1}" = "nano_spiflash" ]; then
 	u_boot_config_file="licheepi_nano_spiflash_defconfig"
 	build
 	pack_spiflash_normal_size_img
+	echo "the binary file in output/spiflash-bin dir"
 fi
 if [ "${1}" = "build_buildroot" ]; then
 	build_buildroot
@@ -488,6 +489,7 @@ if [ "${1}" = "nano_tf" ]; then
 	u_boot_boot_cmd_file="tf_boot.cmd"
 	build
 	pack_tf_normal_size_img
+	echo "the image file in output/image dir"
 fi
 
 sleep 1
