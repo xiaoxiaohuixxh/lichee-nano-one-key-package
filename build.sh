@@ -95,7 +95,8 @@ pull_buildroot(){
 pull_all(){
         sudo apt-get update
 	sudo apt-get install -y autoconf automake libtool gettext 
-        sudo apt-get install -y gcc g++ swig python-dev bc python u-boot-tools bison flex bc libncurses5-dev libc6-i386 lib32stdc++6 lib32z1
+        sudo apt-get install -y make gcc g++ swig python-dev bc python u-boot-tools bison flex bc libssl-dev libncurses5-dev
+	sudo apt-get install -y libc6-i386 lib32stdc++6 lib32z1
 	sudo apt-get install -y libc6:i386 libstdc++6:i386 zlib1g:i386
 	pull_uboot
 	pull_linux
