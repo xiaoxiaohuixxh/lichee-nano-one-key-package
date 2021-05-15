@@ -117,7 +117,7 @@ pull_all(){
 update_env(){
 	if [ ! -d ${temp_root_dir}/${toolchain_dir}/gcc-linaro-7.4.1-2019.02-i686_arm-linux-gnueabi ]; then
 		if [ ! -d ${temp_root_dir}/${toolchain_dir}/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabi ]; then
-			echo "Error:toolchain no found,Please use ./buid.sh pull_all "
+			echo "Error:toolchain not found,Please use ./build.sh pull_all "
 	    		exit 0
 		else			
 			export PATH="$PWD/${toolchain_dir}/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabi/bin":"$PATH"
@@ -132,7 +132,7 @@ check_env(){
 	 [ ! -d ${temp_root_dir}/${u_boot_dir} ] ||\
 	 [ ! -d ${temp_root_dir}/${buildroot_dir} ] ||\
 	 [ ! -d ${temp_root_dir}/${linux_dir} ]; then
-		echo "Error:env error,Please use ./buid.sh pull_all"
+		echo "Error:env error,Please use ./build.sh pull_all"
 		exit 0
 	fi
 }
